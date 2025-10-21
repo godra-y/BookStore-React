@@ -124,15 +124,15 @@ src/
 
 ## Authentication Flow
 
-	•	Register → creates a new user via Firebase Auth.
-	•	Login → signs in the user and stores session.
-	•	Logout → clears session.
-	•	Profile Page → shows user info.
+- **Register** → creates a new user via Firebase Auth.
+- **Login** → signs in the user and stores session.
+- **Logout** → clears session.
+- **Profile Page** → shows user info.
 
 
 ## Future Improvements
-	•	Integrate Redux for global state management
-	•	Add unit tests using Jest or React Testing Library
-	•	Convert into a Progressive Web App (PWA)
-	•	Optimize with lazy loading and Suspense
+- Integrate Redux for global state management
+- Add unit tests using Jest or React Testing Library
+- Convert into a Progressive Web App (PWA)
+- Optimize with lazy loading and Suspense
 
