@@ -3,7 +3,6 @@
 A modern **React-based Bookstore Application** that allows users to browse, view, and save books.  
 Users can register, log in, add books to their cart or favorites, and manage their profile.
 
----
 
 ## Features
 
@@ -16,7 +15,6 @@ Users can register, log in, add books to their cart or favorites, and manage the
 - **LocalStorage** support to save user data and books
 - **React Router** navigation (Home, Books, Favorites, Cart, Profile)
 
----
 
 ## Technologies Used
 
@@ -26,7 +24,6 @@ Users can register, log in, add books to their cart or favorites, and manage the
 - **LocalStorage API**
 - **Create React App**
 
----
 
 ## API Used
 
@@ -41,7 +38,6 @@ https://openlibrary.org/search.json?q=harry+potter
 https://covers.openlibrary.org/b/id/240727-L.jpg
 ```
 
----
 
 ## Installation & Setup
 
@@ -89,42 +85,40 @@ npm start
 ```
 Then open http://localhost:3000
 
----
 
 ## Project Structure
 
 src/
 │
 ├── components/
-│   ├── navbar/          # Navigation bar
-│   ├── footer/          # Footer
-│   └── bookcard/        # BookCard component
-│   └── author/          # Author component
-│   └── genre/           # Genre component
+│   ├── navbar/           → Navigation bar  
+│   ├── footer/           → Footer  
+│   ├── bookcard/         → BookCard component  
+│   ├── author/           → Author component  
+│   └── genre/            → Genre component  
 │
 ├── pages/
-│   ├── home/            # Home page
-│   ├── books/           # All books (fetched from Open Library API)
-│   ├── book-detail/     # Detailed book view
-│   ├── fiction/         # Fiction books
-│   ├── nonfiction/      # Non-fiction books
-│   ├── favorites/       # User favorites
-│   ├── cart/            # Shopping cart
-│   └── auth/            # Login / Register pages
-│   └── profile/         # User's page
+│   ├── home/             → Home page  
+│   ├── books/            → All books (fetched from Open Library API)  
+│   ├── book-detail/      → Detailed book view  
+│   ├── fiction/          → Fiction books  
+│   ├── nonfiction/       → Non-fiction books  
+│   ├── favorites/        → User favorites  
+│   ├── cart/             → Shopping cart  
+│   ├── auth/             → Login / Register pages  
+│   └── profile/          → User profile page  
 │
 ├── context/
-│   ├── BooksContext.js  # Books state management
-│   └── AuthContext.js   # Firebase authentication
+│   ├── BooksContext.js   → Books state management  
+│   └── AuthContext.js    → Firebase authentication  
 │
 ├── routes/
-│   └── PrivateRoute.js  # Protected routes
+│   └── PrivateRoute.js   → Protected routes  
 │
-├── firebase.js          # Firebase config
-├── App.js               # Main app component
-└── main.jsx             # Entry point
+├── firebase.js           → Firebase config  
+├── App.js                → Main app component  
+└── main.jsx              → Entry point  
 
----
 
 ## Authentication Flow
 
@@ -133,7 +127,6 @@ src/
 	•	Logout → clears session.
 	•	Profile Page → shows user info.
 
----
 
 ## Future Improvements
 	•	Integrate Redux for global state management
