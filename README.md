@@ -88,36 +88,38 @@ Then open http://localhost:3000
 
 ## Project Structure
 
+```
 src/
 │
 ├── components/
-│   ├── navbar/           → Navigation bar  
-│   ├── footer/           → Footer  
-│   ├── bookcard/         → BookCard component  
-│   ├── author/           → Author component  
-│   └── genre/            → Genre component  
+│   ├── navbar/          # Navigation bar
+│   ├── footer/          # Footer
+│   ├── bookcard/        # BookCard component
+│   ├── author/          # Author component
+│   └── genre/           # Genre component
 │
 ├── pages/
-│   ├── home/             → Home page  
-│   ├── books/            → All books (fetched from Open Library API)  
-│   ├── book-detail/      → Detailed book view  
-│   ├── fiction/          → Fiction books  
-│   ├── nonfiction/       → Non-fiction books  
-│   ├── favorites/        → User favorites  
-│   ├── cart/             → Shopping cart  
-│   ├── auth/             → Login / Register pages  
-│   └── profile/          → User profile page  
+│   ├── home/            # Home page
+│   ├── books/           # All books (fetched from Open Library API)
+│   ├── book-detail/     # Detailed book view
+│   ├── fiction/         # Fiction books
+│   ├── nonfiction/      # Non-fiction books
+│   ├── favorites/       # User favorites
+│   ├── cart/            # Shopping cart
+│   ├── auth/            # Login / Register pages
+│   └── profile/         # User's page
 │
 ├── context/
-│   ├── BooksContext.js   → Books state management  
-│   └── AuthContext.js    → Firebase authentication  
+│   ├── BooksContext.js  # Books state management
+│   └── AuthContext.js   # Firebase authentication
 │
 ├── routes/
-│   └── PrivateRoute.js   → Protected routes  
+│   └── PrivateRoute.js  # Protected routes
 │
-├── firebase.js           → Firebase config  
-├── App.js                → Main app component  
-└── main.jsx              → Entry point  
+├── firebase.js          # Firebase config
+├── App.js               # Main app component
+└── main.jsx             # Entry point
+```
 
 
 ## Authentication Flow
