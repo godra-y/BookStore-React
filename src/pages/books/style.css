@@ -1,0 +1,22 @@
+.books-page {
+    background-color: #fafafa;
+    font-family: 'Kameron';
+    min-height: 80vh;
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    padding: 0 40px;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.no-books {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    margin-top: 40px;
+}
+

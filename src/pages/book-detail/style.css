@@ -1,0 +1,55 @@
+.book-detail {
+    background-color: #fafafa;
+    font-family: "Kameron", serif;
+    min-height: 80vh;
+}
+
+.book-detail__title {
+    margin-top: 30px;
+    text-align: center;
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.book-detail__main {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.book-detail__desc {
+    max-width: 400px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+}
+
+.book-detail__empty {
+    font-size: 18px;
+    color: #888;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.related-books {
+    margin-top: 60px;
+}
+
+.related-books__title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    padding: 0 40px;
+    justify-content: center;
+    align-items: stretch;
+}

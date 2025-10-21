@@ -1,0 +1,140 @@
+.profile-page {
+    background-color: #f8f8f8;
+    min-height: 100vh;
+    font-family: 'Kameron', serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 0;
+}
+
+.profile-container {
+    display: flex;
+    width: 90%;
+    max-width: 1100px;
+    gap: 40px;
+}
+
+.profile-sidebar {
+    width: 280px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    padding: 30px 20px;
+    text-align: center;
+    height: fit-content;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #ffc300;
+    margin-bottom: 15px;
+}
+
+.profile-sidebar h3 {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.profile-sidebar p {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.profile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.profile-menu button {
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 15px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #333;
+    transition: 0.2s;
+}
+
+.profile-menu button.active,
+.profile-menu button:hover {
+    background: #ffc300;
+    color: #000;
+}
+
+.logout-btn {
+    width: 100%;
+    background: #ff5050;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 0;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: #e64545;
+}
+
+/* Content */
+.profile-content {
+    flex: 1;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+}
+
+.tab-content h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.profile-info label {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.edit-row,
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.edit-input {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+.edit-btn,
+.save-btn {
+    background-color: #ffc300;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.edit-btn:hover,
+.save-btn:hover {
+    background-color: #f5b800;
+}
