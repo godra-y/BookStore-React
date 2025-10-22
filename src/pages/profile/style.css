@@ -85,7 +85,6 @@
     background: #e64545;
 }
 
-/* Content */
 .profile-content {
     flex: 1;
     background: white;
@@ -110,31 +109,8 @@
     font-size: 15px;
 }
 
-.edit-row,
 .info-row {
     display: flex;
     align-items: center;
     gap: 10px;
-}
-
-.edit-input {
-    padding: 8px 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 15px;
-}
-
-.edit-btn,
-.save-btn {
-    background-color: #ffc300;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.edit-btn:hover,
-.save-btn:hover {
-    background-color: #f5b800;
 }

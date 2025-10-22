@@ -141,13 +141,14 @@ const Cart = () => {
                         <div className="summary-buttons">
                             {selected.length > 0 && (
                                 <button
-                                className="btn-remove-selected"
-                                onClick={() => setSelected([])}
-                                disabled={selected.length === 0}
-                            >
-                                Cancel the selection
-                            </button>
-                                )}
+                                    className="btn-remove-selected"
+                                    onClick={() => setSelected([])}
+                                    disabled={selected.length === 0}
+                                >
+                                    Cancel the selection
+                                </button>
+                            )}
+
                             <button
                                 className="btn clear-all"
                                 onClick={clearCart}

@@ -10,6 +10,7 @@ const BookDetail = () => {
 
   const [book, setBook] = useState(null);
   const [relatedBooks, setRelatedBooks] = useState([]);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     if (!books || books.length === 0) return;
@@ -65,6 +66,20 @@ const BookDetail = () => {
             Written by <strong>{book.author}</strong>, this book explores
             powerful ideas and emotions that resonate with readers of all ages.
           </p>
+          <button
+            className="btn-readmore"
+            onClick={() => setExpanded(!expanded)}
+          >
+            {expanded ? "Hide Description" : "Read More"}
+          </button>
+
+          {expanded && (
+            <p className="book-detail__extra">
+              This book dives deep into human emotions, creativity, and the
+              beauty of storytelling. Perfect for readers who love immersive
+              worlds and meaningful characters.
+            </p>
+          )}
         </div>
       </div>
 
