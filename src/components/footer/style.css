@@ -34,7 +34,6 @@
 .footer-icons {
     display: flex;
     gap: 8px;
-
 }
 
 .footer-icons img {
@@ -57,4 +56,19 @@
 .cards-image {
     width: 90px;
     margin-top: 10px;
+}
+
+.footer-column a {
+    text-decoration: none;
+    color: #000000;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-column a:hover {
+    color: #003566;
+}
+
+.footer-column a.active {
+    color: #003566;
+    font-weight: bold;
 }
