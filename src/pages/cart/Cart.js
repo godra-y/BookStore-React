@@ -1,172 +1,164 @@
-import React, { useEffect, useState } from 'react';
-import './style.css';
+import React, { useEffect, useState } from "react";
+import { auth } from "../../firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
-import trash from './../../img/icons/trash.svg';
+import * as cartService from "../../services/cartService";
+import Spinner from "../../components/spinner/Spinner";
+
+import trash from "./../../img/icons/trash.svg";
+import "./style.css";
 
 const Cart = () => {
-    const [cart, setCart] = useState([]);
-    const [selected, setSelected] = useState([]);
+  const [user, setUser] = useState(null);
+  const [cart, setCart] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const saved = JSON.parse(localStorage.getItem('cart')) || [];
-        
-        const updated = saved.map((book) => ({
-            ...book,
-            quantity: book.quantity || 1,
-        }));
-        setCart(updated);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
+      setLoading(true);
 
-        const handleUpdate = () => {
-            const refreshed = JSON.parse(localStorage.getItem('cart')) || [];
-            const withQuantity = refreshed.map((book) => ({
-                ...book,
-                quantity: book.quantity || 1,
-            }));
-            setCart(withQuantity);
-        };
-        window.addEventListener('cartUpdated', handleUpdate);
+      const { cart: loadedCart, mergedWithLocal } =
+        await cartService.loadCart(currentUser);
 
-        return () => window.removeEventListener('cartUpdated', handleUpdate);
-    }, []);
+      if (mergedWithLocal) alert("Your local cart was merged with your account.");
 
-    const saveCart = (updatedCart) => {
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
-        setCart(updatedCart);
-        window.dispatchEvent(new Event('cartUpdated'));
-    };
+      setCart(loadedCart);
+      setLoading(false);
+    });
 
-    const removeFromCart = (title) => {
-        const updated = cart.filter((book) => book.title !== title);
-        saveCart(updated);
-    };
+    return () => unsubscribe();
+  }, []);
 
-    const clearCart = () => {
-        localStorage.removeItem('cart');
-        setCart([]);
-        setSelected([]);
-    };
+  const saveCart = async (updatedCart) => {
+    setCart(updatedCart);
+    await cartService.saveCart(user, updatedCart);
+    window.dispatchEvent(new Event("cartUpdated"));
+  };
 
-    const toggleSelect = (title) => {
-        setSelected((prev) =>
-            prev.includes(title)
-                ? prev.filter((t) => t !== title)
-                : [...prev, title]
-        );
-    };
+  const handleRemove = (title) => {
+    const updated = cartService.removeFromCart(cart, title);
+    setSelected(selected.filter((t) => t !== title));
+    saveCart(updated);
+  };
 
-    const changeQuantity = (title, delta) => {
-        const updated = cart.map((book) =>
-            book.title === title
-                ? { ...book, quantity: Math.max(1, book.quantity + delta) }
-                : book
-        );
-        saveCart(updated);
-    };
+  const handleClear = async () => {
+    setCart([]);
+    setSelected([]);
+    if (user) await cartService.saveCartToFirestore(user.uid, []);
+    else cartService.clearLocalCart();
 
-    const totalPrice = cart
-        .filter((book) => selected.includes(book.title))
-        .reduce((sum, book) => sum + book.price * book.quantity, 0)
-        .toFixed(2);
+    window.dispatchEvent(new Event("cartUpdated"));
+  };
 
-    const checkout = () => {
-        if (selected.length === 0) {
-            alert('Please select at least one book');
-            return;
-        }
-        alert(`Checkout successful! Total: $${totalPrice}`);
-        const remaining = cart.filter((book) => !selected.includes(book.title));
-        saveCart(remaining);
-        setSelected([]);
-    };
+  const handleToggle = (title) => {
+    setSelected((prev) => cartService.toggleSelect(prev, title));
+  };
 
-    return (
-        <main className="cart-page">
-            <h1 className="cart-title">My Bag</h1>
+  const handleQuantity = (title, delta) => {
+    saveCart(cartService.changeQuantity(cart, title, delta));
+  };
 
-            {cart.length === 0 ? (
-                <p className="cart-empty">Your bag is empty.</p>
-            ) : (
-                <>
-                    <div className="cart-grid">
-                        {cart.map((book, index) => (
-                            <div key={index} className="cart-item">
-                                <input
-                                    type="checkbox"
-                                    checked={selected.includes(book.title)}
-                                    onChange={() => toggleSelect(book.title)}
-                                    className="cart-checkbox"
-                                />
-                                <img src={book.image} alt={book.title} className="cart-image" />
-                                <div className="cart-info">
-                                    <h3>{book.title}</h3>
-                                    <p>{book.author}</p>
-                                    <p className="cart-price">${book.price}</p>
-                                </div>
+  const totalPrice = cartService.calculateTotal(cart, selected).toFixed(2);
 
-                                <div className="cart-quantity">
-                                    <button
-                                        onClick={() => changeQuantity(book.title, -1)}
-                                        className="quantity-btn"
-                                    >
-                                        -
-                                    </button>
-                                    <span>{book.quantity}</span>
-                                    <button
-                                        onClick={() => changeQuantity(book.title, 1)}
-                                        className="quantity-btn"
-                                    >
-                                        +
-                                    </button>
-                                </div>
+  const checkout = () => {
+    if (selected.length === 0) {
+      alert("Please select at least one book");
+      return;
+    }
 
-                                <button
-                                    className="btn remove"
-                                    onClick={() => removeFromCart(book.title)}
-                                >
-                                    <img src={trash} alt="Remove" />
-                                </button>
-                            </div>
-                        ))}
-                    </div>
+    alert(`Checkout successful! Total: $${totalPrice}`);
 
-                    <div className="cart-summary">
-                        <div className="summary-info">
-                            <p>
-                                <strong>Selected:</strong> {selected.length} book(s)
-                            </p>
-                            <p>
-                                <strong>Total:</strong> ${totalPrice}
-                            </p>
-                        </div>
-                        <div className="summary-buttons">
-                            {selected.length > 0 && (
-                                <button
-                                    className="btn-remove-selected"
-                                    onClick={() => setSelected([])}
-                                    disabled={selected.length === 0}
-                                >
-                                    Cancel the selection
-                                </button>
-                            )}
+    const remaining = cart.filter((b) => !selected.includes(b.title));
+    saveCart(remaining);
+    setSelected([]);
+  };
 
-                            <button
-                                className="btn clear-all"
-                                onClick={clearCart}
-                            >
-                                Clear All
-                            </button>
-                            <button
-                                className="btn checkout"
-                                onClick={checkout}
-                            >
-                                Checkout
-                            </button>
-                        </div>
-                    </div>
-                </>
-            )}
-        </main>
-    );
+  if (loading) return <Spinner />;
+
+  return (
+    <main className="cart-page">
+      <h1 className="cart-title">My Bag</h1>
+
+      {cart.length === 0 ? (
+        <p className="cart-empty">Your bag is empty.</p>
+      ) : (
+        <>
+          <div className="cart-grid">
+            {cart.map((book, i) => (
+              <div key={i} className="cart-item">
+                <input
+                  type="checkbox"
+                  checked={selected.includes(book.title)}
+                  onChange={() => handleToggle(book.title)}
+                  className="cart-checkbox"
+                />
+
+                <img src={book.image} alt={book.title} className="cart-image" />
+
+                <div className="cart-info">
+                  <h3>{book.title}</h3>
+                  <p>{book.author}</p>
+                  <p className="cart-price">${book.price}</p>
+                </div>
+
+                <div className="cart-quantity">
+                  <button
+                    onClick={() => handleQuantity(book.title, -1)}
+                    className="quantity-btn"
+                  >
+                    -
+                  </button>
+                  <span>{book.quantity}</span>
+                  <button
+                    onClick={() => handleQuantity(book.title, 1)}
+                    className="quantity-btn"
+                  >
+                    +
+                  </button>
+                </div>
+
+                <button className="btn remove" onClick={() => handleRemove(book.title)}>
+                  <img src={trash} alt="Remove" />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div className="cart-summary">
+            <div className="summary-info">
+              <p>
+                <strong>Selected:</strong> {selected.length} book(s)
+              </p>
+              <p>
+                <strong>Total:</strong> ${totalPrice}
+              </p>
+            </div>
+
+            <div className="summary-buttons">
+              {selected.length > 0 && (
+                <button
+                  className="btn-remove-selected"
+                  onClick={() => setSelected([])}
+                >
+                  Cancel selection
+                </button>
+              )}
+
+              <button className="btn clear-all" onClick={handleClear}>
+                Clear All
+              </button>
+
+              <button className="btn checkout" onClick={checkout}>
+                Checkout
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+    </main>
+  );
 };
 
 export default Cart;
