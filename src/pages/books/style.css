@@ -1,7 +1,16 @@
 .books-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     background-color: #fafafa;
     font-family: 'Kameron';
-    min-height: 80vh;
+}
+
+.content-wrapper {
+    flex-grow: 1;
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
 }
 
 .books-grid {
@@ -20,3 +29,71 @@
     margin-top: 40px;
 }
 
+.limit-select {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    font-family: 'Kameron';
+    font-size: 16px;
+}
+
+.show-select-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.limit-select select {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.limit-select select:hover {
+    border-color: #888;
+}
+
+.limit-select select:focus {
+    outline: none;
+    border-color: #333;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 0;
+    font-family: 'Kameron';
+    background-color: #fafafa;
+}
+
+.pagination button {
+    padding: 8px 16px;
+    font-size: 15px;
+    border-radius: 7px;
+    border: 1px solid #353535;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+    background: #f0f0f0;
+    border-color: #999;
+}
+
+.pagination button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    font-size: 16px;
+    font-weight: 600;
+}
