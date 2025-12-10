@@ -4,6 +4,7 @@ import { useBooks } from '../../context/BooksContext';
 import BookCard from '../../components/bookcard/BookCard';
 import Genre from '../../components/genre/Genre';
 import Author from '../../components/author/Author';
+import Spinner from '../../components/spinner/Spinner';
 import './style.css';
 
 import sliderImage from './../../img/pictures/home/slide.png';
@@ -62,7 +63,7 @@ const Home = () => {
       </section>
 
       {loading ? (
-        <div className="loader"></div>
+        <Spinner />
       ) : error ? (
         <p className="error">Error: {error}</p>
       ) : (
@@ -98,9 +99,9 @@ const Home = () => {
 
           <div className="banner_books">
             {loading ? (
-              <div className="loader"></div>
+              <Spinner />
             ) : (
-              books.slice(11, 14).map((book) => (
+              books.slice(6, 9).map((book) => (
                 <img
                   key={book.key}
                   src={
