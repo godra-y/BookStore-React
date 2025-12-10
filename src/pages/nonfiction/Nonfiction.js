@@ -12,7 +12,7 @@ const Fiction = () => {
 
   return (
     <main className="nonfiction-page">
-      <h1 className="nonfiction-title">Fiction Books</h1>
+      <h1 className="nonfiction-title">Nonfiction Books</h1>
 
       {loading ? (
         <div className="loader"></div>
