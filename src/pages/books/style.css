@@ -8,7 +8,6 @@
 
 .content-wrapper {
     flex-grow: 1;
-    padding: 20px 40px;
     display: flex;
     flex-direction: column;
 }
