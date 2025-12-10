@@ -114,3 +114,16 @@
     align-items: center;
     gap: 10px;
 }
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 8px 15px;
+    cursor: pointer;
+    color: #000;
+    border-radius: 10px;
+    border: 2px solid;
+    border-color: #ffc300;
+    font-size: 14px;
+    transition: 0.2s;
+    margin-bottom: 10px;
+}
