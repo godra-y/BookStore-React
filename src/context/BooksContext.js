@@ -1,4 +1,8 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useRef } from "react";
+import { 
+  fetchBooks as fetchBooksService, 
+  fetchBySubject as fetchBySubjectService 
+} from "../services/apiService";
 
 const BooksContext = createContext();
 
@@ -7,16 +11,30 @@ export const BooksProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchBooks = async (query = "all") => {
+  const abortControllerRef = useRef(null);
+
+  const cancelPreviousRequest = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
+    return abortControllerRef.current.signal;
+  };
+
+  const fetchBooks = async ({ query = "all", page = 1, limit = 10 }) => {
     setLoading(true);
     setError(null);
+
+    const signal = cancelPreviousRequest();
+
     try {
-      const res = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=20`);
-      const data = await res.json();
-      setBooks(data.docs || []);
+      const booksData = await fetchBooksService({ query, page, limit, signal });
+      setBooks(booksData);
     } 
     catch (err) {
-      setError(err.message || "Something went wrong");
+      if (err.name !== "AbortError") {
+        setError(err.message || "Something went wrong");
+      }
     } 
     finally {
       setLoading(false);
@@ -26,22 +44,22 @@ export const BooksProvider = ({ children }) => {
   const fetchBySubject = async (subject) => {
     setLoading(true);
     setError(null);
+
+    const signal = cancelPreviousRequest();
+
     try {
-      const res = await fetch(`https://openlibrary.org/subjects/${encodeURIComponent(subject)}.json?limit=20`);
-      const data = await res.json();
-      setBooks(data.works || []);
+      const booksData = await fetchBySubjectService(subject, { signal });
+      setBooks(booksData);
     } 
     catch (err) {
-      setError(err.message || "Something went wrong");
+      if (err.name !== "AbortError") {
+        setError(err.message || "Something went wrong");
+      }
     } 
     finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchBooks("all");
-  }, []);
 
   return (
     <BooksContext.Provider value={{ books, loading, error, fetchBooks, fetchBySubject }}>
