@@ -34,28 +34,30 @@ function App() {
       <BooksProvider>
         <Router>
           <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/books" element={<Books />} />
-            <Route path="/book/:title" element={<BookDetail />} />
-            <Route path="/fiction" element={<Fiction />} />
-            <Route path="/nonfiction" element={<Noniction />} />
-            <Route path="/favorites" element={<PrivateRoute><Favorites /></PrivateRoute>} />
-            <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
-            <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Signup />} />
-            <Route path="/orders" element={<OrderTracking />} />
-            <Route path="/shipping" element={<Shipping />} />
-            <Route path="/payment" element={<Payment />} />
-            <Route path="/contacts" element={<Contacts />} />
-            <Route path="/returns" element={<Returns />} />
-            <Route path="/gift-cards" element={<GiftCertificates />} />
-            <Route path="/bonus" element={<BonusCards />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/impact" element={<Impact />} />
-            <Route path="/future" element={<Future />} />
-          </Routes>
+          <main className="page-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/books" element={<Books />} />
+              <Route path="/book/:title" element={<BookDetail />} />
+              <Route path="/fiction" element={<Fiction />} />
+              <Route path="/nonfiction" element={<Noniction />} />
+              <Route path="/favorites" element={<PrivateRoute><Favorites /></PrivateRoute>} />
+              <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
+              <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Signup />} />
+              <Route path="/orders" element={<OrderTracking />} />
+              <Route path="/shipping" element={<Shipping />} />
+              <Route path="/payment" element={<Payment />} />
+              <Route path="/contacts" element={<Contacts />} />
+              <Route path="/returns" element={<Returns />} />
+              <Route path="/gift-cards" element={<GiftCertificates />} />
+              <Route path="/bonus" element={<BonusCards />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/impact" element={<Impact />} />
+              <Route path="/future" element={<Future />} />
+            </Routes>
+          </main>
           <Footer />
         </Router>
       </BooksProvider>
