@@ -1,23 +1,64 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
+import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "./auth.css";
 
 const Register = () => {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]).{8,}$/;
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!emailRegex.test(email)) {
+      newErrors.email = "Invalid email format.";
+    }
+
+    if (!passwordRegex.test(password)) {
+      newErrors.password =
+        "Password must be at least 8 characters, include one number and one special character.";
+    }
+
+    if (repeatPassword !== password) {
+      newErrors.repeatPassword = "Passwords do not match.";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setErrors({});
+
+    if (!validate()) return;
+
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      setLoading(true);
+      await register(email, password);
       navigate("/login");
     } 
     catch (err) {
-      setError("Something went wrong. Try again.");
+      if (err.code === "auth/email-already-in-use") {
+        setErrors({ email: "This email is already registered." });
+      } 
+      else {
+        setErrors({ general: "Something went wrong. Please try again." });
+      }
+    } 
+    finally {
+      setLoading(false);
     }
   };
 
@@ -25,6 +66,7 @@ const Register = () => {
     <main className="auth-page">
       <div className="auth-card">
         <h2>Create Account</h2>
+
         <form onSubmit={handleRegister}>
           <label>Email</label>
           <input
@@ -34,6 +76,7 @@ const Register = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          {errors.email && <p className="error">{errors.email}</p>}
 
           <label>Password</label>
           <input
@@ -43,10 +86,25 @@ const Register = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          {errors.password && <p className="error">{errors.password}</p>}
 
-          {error && <p className="error">{error}</p>}
+          <label>Repeat Password</label>
+          <input
+            type="password"
+            placeholder="Repeat password"
+            value={repeatPassword}
+            onChange={(e) => setRepeatPassword(e.target.value)}
+            required
+          />
+          {errors.repeatPassword && (
+            <p className="error">{errors.repeatPassword}</p>
+          )}
 
-          <button type="submit" className="btn primary">Register</button>
+          {errors.general && <p className="error">{errors.general}</p>}
+
+          <button type="submit" className="btn primary" disabled={loading}>
+            {loading ? "Loading" : "Register"}
+          </button>
         </form>
 
         <p className="auth-link">
